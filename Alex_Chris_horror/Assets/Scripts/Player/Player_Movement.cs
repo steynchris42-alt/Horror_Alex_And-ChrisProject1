@@ -19,20 +19,17 @@ public class Player_Movement : MonoBehaviour
     void Update()
     {
         //Converting the transform rotations of camera and player to floats so that they can be used together easier.
-        float CamRotateX = player_cam.transform.rotation.eulerAngles.x;
-        float Transform_RotateX = transform.rotation.eulerAngles.x;
+        float CamRotateX = Mathf.Clamp( player_cam.transform.rotation.eulerAngles.x , 0, 0);
+
 
         float CamRotateY = player_cam.transform.rotation.eulerAngles.y;
-        float Transform_RotateY = transform.rotation.eulerAngles.x;
+      
 
         float CamRotateZ = player_cam.transform.rotation.eulerAngles.z;
-        float Transform_RotateZ = transform.rotation.eulerAngles.z;
-
-        Transform_RotateX = CamRotateX;
-        Transform_RotateY = CamRotateY;
-        Transform_RotateZ = CamRotateZ;
+ 
+        
         //setting the players rotation to the rotation of the camera.
-        transform.rotation = Quaternion.Euler(CamRotateX, 0, CamRotateZ);
+        transform.rotation = Quaternion.Euler(CamRotateX,CamRotateY, 0);
 
         ///WASD cheacks
        Keyboard keyboard = Keyboard.current;
@@ -56,7 +53,8 @@ public class Player_Movement : MonoBehaviour
             if (keyboard.sKey.isPressed)
             {
                 MoveDir.z -= 1;
-                
+               
+                    
             }
             if (keyboard.dKey.isPressed)
             {
@@ -69,11 +67,11 @@ public class Player_Movement : MonoBehaviour
     public void FixedUpdate()
     {
         //Creating a force that is applied in the correct directions
-       Vector3 Velocity_Norm = MoveDir.normalized;
-       Vector3 Velocity_All = (transform.forward * Velocity_Norm.z + transform.right * Velocity_Norm.x) *  MoveSpeed;   
+        Vector3 Velocity_Norm = MoveDir.normalized;
+       Vector3 Velocity_All = (transform.forward * Velocity_Norm.z +transform.right * Velocity_Norm.x) *  MoveSpeed;   
         
         //Adding the force vector to the RigidBody using the velocityChange ForceMode.
-       RigBod.AddForce(Velocity_All , ForceMode.VelocityChange);
+       RigBod.AddForce(Velocity_All , ForceMode.Force);
         
     }
 
