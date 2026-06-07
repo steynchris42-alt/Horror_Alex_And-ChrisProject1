@@ -1,20 +1,15 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Player_Movement : MonoBehaviour
 {
     Rigidbody RigBod;
+    public Camera player_cam;
+    Vector3 MoveDir = new Vector3(0, 0, 0);
 
-    public Vector3 XAxis = new Vector3(1.0f,0.0f,0.0f);
-    public Vector3 YAxis = new Vector3(0.0f, 1.0f, 0.0f);
-    public Vector3 ZAxis = new Vector3(0.0f, 0.0f, 0.1f);
-
-    public float DirX = 0.0f;
-    public float DirY = 0.0f;
-    public float DirZ = 0.0f;
-
-    public float MoveSpeed = 5.0f;
-
+    public float MoveSpeed = 10.0f;
 
     void Start()
     {
@@ -23,40 +18,49 @@ public class Player_Movement : MonoBehaviour
     }
     void Update()
     {
+        float CamRotateX = player_cam.transform.rotation.eulerAngles.x;
+        float Transform_RotateX = transform.rotation.eulerAngles.x;
 
-        Keyboard keyboard = Keyboard.current;
+        float CamRotateY = player_cam.transform.rotation.eulerAngles.y;
+        float Transform_RotateY = transform.rotation.eulerAngles.x;
+
+        Transform_RotateX = CamRotateX;
+        Transform_RotateY = CamRotateY;
+
+              Keyboard keyboard = Keyboard.current;
         if (keyboard == null)
         {
             return;
         }
+     
         else
         {
-         if (keyboard.wKey.isPressed)
+            MoveDir = Vector3.zero;
+            if (keyboard.wKey.isPressed)
             {
-                transform.position += ZAxis * MoveSpeed;
-                Debug.Log("W");
+                MoveDir.z += 1;
             }
             if (keyboard.aKey.isPressed)
             {
-                transform.position -= XAxis;
+                MoveDir.x -= 1;
             }
             if (keyboard.sKey.isPressed)
             {
-                transform.position -= ZAxis;
+                MoveDir.z -= 1;
             }
             if (keyboard.dKey.isPressed)
             {
-                transform.position += XAxis;
+                MoveDir.x += 1;
             }
-
         }
       
     }
     public void FixedUpdate()
     {
-        ZAxis = ZAxis * MoveSpeed;
-        RigBod.AddForce(ZAxis * MoveSpeed, ForceMode.Force);
-     
+        Vector3 Velocity_Norm = MoveDir.normalized * MoveSpeed;
+       
+           RigBod.AddForce(Velocity_Norm , ForceMode.Force);
+        
     }
 
  
