@@ -53,8 +53,7 @@ public class Player_Movement : MonoBehaviour
             if (keyboard.sKey.isPressed)
             {
                 MoveDir.z -= 1;
-               
-                    
+                           
             }
             if (keyboard.dKey.isPressed)
             {
