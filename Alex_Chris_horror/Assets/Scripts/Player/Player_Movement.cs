@@ -11,6 +11,8 @@ public class Player_Movement : MonoBehaviour
 
     public float MoveSpeed = 10.0f;
 
+
+
     void Start()
     {
         RigBod = GetComponent<Rigidbody>();
@@ -31,6 +33,7 @@ public class Player_Movement : MonoBehaviour
         //setting the players rotation to the rotation of the camera.
         transform.rotation = Quaternion.Euler(CamRotateX,CamRotateY, 0);
 
+     
         ///WASD cheacks
        Keyboard keyboard = Keyboard.current;
         if (keyboard == null)
@@ -74,5 +77,5 @@ public class Player_Movement : MonoBehaviour
         
     }
 
- 
+
 }
