@@ -11,6 +11,7 @@ public class Player_Movement : MonoBehaviour
 
     public float MoveSpeed = 10.0f;
 
+    public PlayerGrounded Player_grounded;
 
 
     void Start()
@@ -68,12 +69,20 @@ public class Player_Movement : MonoBehaviour
     }
     public void FixedUpdate()
     {
-        //Creating a force that is applied in the correct directions
-        Vector3 Velocity_Norm = MoveDir.normalized;
-       Vector3 Velocity_All = (transform.forward * Velocity_Norm.z +transform.right * Velocity_Norm.x) *  MoveSpeed;   
-        
-        //Adding the force vector to the RigidBody using the velocityChange ForceMode.
-       RigBod.AddForce(Velocity_All , ForceMode.Force);
+        if (Player_grounded.IsGrounded == false)
+        {
+            MoveSpeed = 0.0f;
+        }
+        else
+        {
+            MoveSpeed = 2000.0f;
+            //Creating a force that is applied in the correct directions
+            Vector3 Velocity_Norm = MoveDir.normalized;
+            Vector3 Velocity_All = (transform.forward * Velocity_Norm.z + transform.right * Velocity_Norm.x) * MoveSpeed;
+
+            //Adding the force vector to the RigidBody using the velocityChange ForceMode.
+            RigBod.AddForce(Velocity_All, ForceMode.Force);
+        }
         
     }
 
