@@ -22,20 +22,13 @@ public class Player_Movement : MonoBehaviour
     void Update()
     {
         //Converting the transform rotations of camera and player to floats so that they can be used together easier.
-        float CamRotateX = Mathf.Clamp( player_cam.transform.rotation.eulerAngles.x , 0, 0);
-
-
+        float CamRotateX = Mathf.Clamp(player_cam.transform.rotation.eulerAngles.x, 0, 0);
         float CamRotateY = player_cam.transform.rotation.eulerAngles.y;
-      
-
-        float CamRotateZ = player_cam.transform.rotation.eulerAngles.z;
- 
-        
+        float CamRotateZ = player_cam.transform.rotation.eulerAngles.z;    
         //setting the players rotation to the rotation of the camera.
-        transform.rotation = Quaternion.Euler(CamRotateX,CamRotateY, 0);
-
-     
+        transform.rotation = Quaternion.Euler(CamRotateX,CamRotateY, 0);    
         ///WASD cheacks
+        ///
        Keyboard keyboard = Keyboard.current;
         if (keyboard == null)
         {
@@ -64,6 +57,11 @@ public class Player_Movement : MonoBehaviour
                 MoveDir.x += 1;
              
             }
+            if (keyboard.shiftKey.isPressed && keyboard.wKey.isPressed || (keyboard.aKey.isPressed) || keyboard.sKey.isPressed || keyboard.dKey.isPressed)
+            {
+                MoveSpeed = 300.0f;
+                player_cam.fieldOfView = 100.0f;
+            }
         }
       
     }
@@ -75,16 +73,12 @@ public class Player_Movement : MonoBehaviour
         }
         else
         {
-            MoveSpeed = 2000.0f;
+            MoveSpeed = 20.0f;
             //Creating a force that is applied in the correct directions
             Vector3 Velocity_Norm = MoveDir.normalized;
             Vector3 Velocity_All = (transform.forward * Velocity_Norm.z + transform.right * Velocity_Norm.x) * MoveSpeed;
-
             //Adding the force vector to the RigidBody using the velocityChange ForceMode.
-            RigBod.AddForce(Velocity_All, ForceMode.Force);
-        }
-        
+            RigBod.AddForce(Velocity_All, ForceMode.VelocityChange);
+        }       
     }
-
-
 }

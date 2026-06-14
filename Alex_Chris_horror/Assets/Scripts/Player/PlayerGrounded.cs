@@ -28,7 +28,6 @@ public class PlayerGrounded : MonoBehaviour
         if (IsGrounded == false)
         {
           RigBod.AddForce(Vector3.down * DropSpeed , ForceMode.Impulse);
-
         }
     }
     public bool GroundRay()
