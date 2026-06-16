@@ -12,4 +12,9 @@ public class ItemRotate : MonoBehaviour
     {
         transform.DORotate(_rotationVector, _rotationSpeed, RotateMode.WorldAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
     }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
 }
