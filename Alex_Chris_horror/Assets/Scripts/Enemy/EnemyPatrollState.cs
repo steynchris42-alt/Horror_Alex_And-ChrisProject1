@@ -84,19 +84,19 @@ public class EnemyPatrollState : Enemy_State_Controll
             iPatrolRoute_Index = System.Array.IndexOf(route, CurrentPath);
         }
      DirToPath0 = (transform.position - route[0].transform.position).normalized;
-    DirToPath1 = (transform.position - route[1].transform.position).normalized;
+    DirToPath1 = ( route[1].transform.position.normalized - transform.position).normalized;
     DirToPath2 = (transform.position - route[2].transform.position).normalized;
     DirToPath3 = (transform.position - route[3].transform.position).normalized;
     DirToPath4 = (transform.position - route[4].transform.position).normalized;
 
         switch (iPatrolRoute_Index)
         {
-            case 0: Debug.Log("MoveTo Pathpoint1"); transform.Translate( DirToPath1 * Time.deltaTime * MoveSpeed, Space.World); break;
-          //  case 1: Debug.Log("MoveTo Pathpoint2"); transform.Translate(route[2].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-         ////   case 2: Debug.Log("MoveTo Pathpoint3"); transform.Translate(route[3].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-           // case 3: Debug.Log("MoveTo Pathpoint4"); transform.Translate(route[4].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-           // case 4: Debug.Log("MoveTo Pathpoint0"); transform.Translate(route[0].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-                // transform.Translate(CurrentPath.position, TargetPath);
+            case 0: Debug.Log("MoveTo Pathpoint1"); transform.Translate( DirToPath1 * MoveSpeed *Time.deltaTime  , Space.Self); break;
+          case 1: Debug.Log("MoveTo Pathpoint2"); transform.Translate(route[2].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
+            case 2: Debug.Log("MoveTo Pathpoint3"); transform.Translate(route[3].transform.position * MoveSpeed *Time.deltaTime, Space.World); break;
+            case 3: Debug.Log("MoveTo Pathpoint4"); transform.Translate(route[4].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
+            case 4: Debug.Log("MoveTo Pathpoint0"); transform.Translate(route[0].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
+        
         }
     }
     protected void CDIrections()
