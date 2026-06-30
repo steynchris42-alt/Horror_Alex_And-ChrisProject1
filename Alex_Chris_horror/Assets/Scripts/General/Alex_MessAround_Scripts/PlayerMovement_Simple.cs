@@ -25,7 +25,7 @@ public class PlayerMovement_Simple : MonoBehaviour
             rbod.linearVelocity = new Vector3(6f, rbod.linearVelocity.y , rbod.linearVelocity.z);
 
         }
-
+       
         if (Input.GetKey(KeyCode.A))
         {
             rbod.linearVelocity = new Vector3(-6f, rbod.linearVelocity.y, rbod.linearVelocity.z);

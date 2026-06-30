@@ -56943,7 +56943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4991712880746074280, guid: 0b6a03f45be7f73499884ea60b5a3d6a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.08
+      value: 5.42
       objectReference: {fileID: 0}
     - target: {fileID: 4991712880746074280, guid: 0b6a03f45be7f73499884ea60b5a3d6a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -110324,16 +110324,20 @@ MonoBehaviour:
   Current_Gen: {fileID: 0}
   player: {fileID: 1706625289}
   enemy_state: 0
+  PatrolRouteFull: []
   PatrolRoute1:
   - {fileID: 961733690}
   - {fileID: 2057830914}
   - {fileID: 1140009156}
   - {fileID: 6882469}
   - {fileID: 191016988}
+  PatrolRoute2: []
+  PatrolRoute3: []
+  PatrolRoute4: []
   CurrentPath: {fileID: 0}
   TargetPath: {fileID: 0}
   iGen_Index: 0
-  patrolcircuts: 0
+  iPatrolRoute_Index: 0
 --- !u!1001 &2047602292
 PrefabInstance:
   m_ObjectHideFlags: 0

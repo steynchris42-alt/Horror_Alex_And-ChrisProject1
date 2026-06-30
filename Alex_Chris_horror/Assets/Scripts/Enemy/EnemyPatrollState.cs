@@ -1,15 +1,18 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyPatrollState : Enemy_State_Controll
 {
-   public Transform[] PatrolRouteFull;
-    public Transform[] PatrolRoute1;
-   public Transform[] PatrolRoute2;
-    public Transform[] PatrolRoute3;
-   public Transform[] PatrolRoute4;
+    public Transform[] PatrolRoute;
+
+    [SerializeField] protected Transform[] Relocate;
+    [SerializeField] protected Transform[] Relocate_1;
+    [SerializeField] protected Transform[] Relocate_2;
+    [SerializeField] protected Transform[] Relocate_3;
+    [SerializeField] protected Transform[] Relocate_4;
 
     protected Vector3 DirToPath0;
     protected Vector3 DirToPath1;
@@ -20,37 +23,28 @@ public class EnemyPatrollState : Enemy_State_Controll
     public Transform CurrentPath;
     public Transform TargetPath;
     protected float DisToPath;
-   
 
-   [SerializeField] private int iGen_Index;
+
+    [SerializeField] private int iGen_Index;
     [SerializeField] private int iPatrolRoute_Index;
 
-    protected float MoveSpeed = 10f;
-
-    public enum PatrolCircuts
-    {
-        CircutFull,
-        Circut0,
-        Circut1,
-        Circut2,
-        Circut3,
-    }
-    public PatrolCircuts patrolcircuts;
+    protected float MoveSpeed = 30f;
     protected void Start()
     {
-   Debug.Log(IsPatrolligActivated);
-        // TargetPath = PatrolRouteFull[0];
+        Debug.Log(IsPatrolligActivated);
+        //TargetPath = PatrolRouteFull[0];
     }
-    protected override void Update()
+    protected override void PatrollState()
     {
-        base.Update();
+        Debug.Log("enemy patroll state activated");
         foreach (Transform gen in Generators)
         {
             Player_Dis_Generator = Vector3.Distance(player.position, gen.position);
-   
+
             if (Player_Dis_Generator < 60)
             {
                 Current_Gen = gen;
+                //Debug.Log("GenerratorDistances" + Player_Dis_Generator);
             }
 
         }
@@ -58,22 +52,26 @@ public class EnemyPatrollState : Enemy_State_Controll
         {
             iGen_Index = System.Array.IndexOf(Generators, Current_Gen);
         }
- 
+       
+            SetCircut(PatrolRoute);
+        
+      
+
         switch (iGen_Index)
         {
-            case 0: SetCircut(PatrolRoute1); break;
-           case 1: SetCircut(PatrolRoute2); break;
-          case 2: SetCircut(PatrolRoute3); break;
-           case 3: SetCircut(PatrolRoute4); break;
+            case 0: Relocate_(Relocate); Debug.Log("Patrolroute0 Activated"); break;
+            case 1: Relocate_(Relocate_1); Debug.Log("Patrolroute1 Activated"); break;
+            case 2: Relocate_(Relocate_2); Debug.Log("Patrolroute2 Activated"); break;
+            case 3: Relocate_(Relocate_3); Debug.Log("Patrolroute3 Activated"); break;
 
-        }  
+        }
     }
     protected void SetCircut(Transform[] route)
     {
         foreach (Transform Path in route)
         {
             DisToPath = Vector3.Distance(transform.position, Path.position);
-      
+
             if (DisToPath <= 10)
             {
                 CurrentPath = Path;
@@ -83,27 +81,33 @@ public class EnemyPatrollState : Enemy_State_Controll
         {
             iPatrolRoute_Index = System.Array.IndexOf(route, CurrentPath);
         }
-     DirToPath0 = (transform.position - route[0].transform.position).normalized;
-    DirToPath1 = ( route[1].transform.position.normalized - transform.position).normalized;
-    DirToPath2 = (transform.position - route[2].transform.position).normalized;
-    DirToPath3 = (transform.position - route[3].transform.position).normalized;
-    DirToPath4 = (transform.position - route[4].transform.position).normalized;
+        DirToPath0 = (route[0].transform.position - transform.position).normalized;
+        DirToPath1 = (route[1].transform.position - transform.position).normalized;
+        DirToPath2 = (route[2].transform.position - transform.position).normalized;
+        DirToPath3 = (route[3].transform.position - transform.position).normalized;
+        DirToPath4 = (route[4].transform.position - transform.position).normalized;
 
         switch (iPatrolRoute_Index)
         {
-            case 0: Debug.Log("MoveTo Pathpoint1"); transform.Translate( DirToPath1 * MoveSpeed *Time.deltaTime  , Space.Self); break;
-          case 1: Debug.Log("MoveTo Pathpoint2"); transform.Translate(route[2].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-            case 2: Debug.Log("MoveTo Pathpoint3"); transform.Translate(route[3].transform.position * MoveSpeed *Time.deltaTime, Space.World); break;
-            case 3: Debug.Log("MoveTo Pathpoint4"); transform.Translate(route[4].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-            case 4: Debug.Log("MoveTo Pathpoint0"); transform.Translate(route[0].transform.position * Time.deltaTime * MoveSpeed, Space.World); break;
-        
+            case 0: transform.Translate(DirToPath1 * MoveSpeed * Time.deltaTime); break;
+            case 1: transform.Translate(DirToPath2 * MoveSpeed * Time.deltaTime); break;
+            case 2: transform.Translate(DirToPath3 * MoveSpeed * Time.deltaTime); break;
+            case 3: transform.Translate(DirToPath4 * MoveSpeed * Time.deltaTime); break;
+            case 4: transform.Translate(DirToPath0 * MoveSpeed * Time.deltaTime); break;
+
         }
     }
-    protected void CDIrections()
+
+    protected void Relocate_(Transform[] relocate)
     {
-    
-        
+        PatrolRoute[0].position = relocate[0].position;
+        PatrolRoute[1].position = relocate[1].position;
+        PatrolRoute[2].position = relocate[2].position;
+        PatrolRoute[3].position = relocate[3].position;
+        PatrolRoute[4].position = relocate[4].position;
+
     }
+ 
 }
 
 //Nice for compressing else if chains. performance heavy in thsi conetx.

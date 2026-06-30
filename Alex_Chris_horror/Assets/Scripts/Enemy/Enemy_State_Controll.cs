@@ -25,8 +25,7 @@ protected enum EnemyState
         Stunned,
         JumpScare,
          }
-    [SerializeField] 
-  protected EnemyState enemy_state;
+    [SerializeField] protected EnemyState enemy_state;
     protected virtual void Update()
     {
         Dis_From_Player = Vector3.Distance(transform.position, player.position);
@@ -36,10 +35,24 @@ protected enum EnemyState
             case > 20: enemy_state = EnemyState.Patrolling; break;
             case < 20: enemy_state = EnemyState.Chasing; break;
         }
+        switch (enemy_state)
+        {
+            case EnemyState.Chasing: ChasingState(); break;
+            case EnemyState.Patrolling: PatrollState(); break;
+        }
+
         //Realted to the generators   
         //iCurrentGeneratorsIndex = iGeneratorsIndex;
         // int Current_gen_asInt;
     
     }
-       
-      }
+    protected virtual void ChasingState()
+    {
+        Debug.Log("Chasing state in controller script");
+    }
+    protected virtual void PatrollState()
+    {
+        Debug.Log("Patrolling state in controller script");
+    }
+
+}
